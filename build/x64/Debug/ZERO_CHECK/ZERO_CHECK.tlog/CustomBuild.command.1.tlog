@@ -1,0 +1,10 @@
+^C:\USERS\МИХАИЛ\DESKTOP\LAB2\BUILD\CMAKEFILES\85E98E65EA3BEB720C1A788D919116EF\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Users/Михаил/Desktop/lab2 -BC:/Users/Михаил/Desktop/lab2/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/Михаил/Desktop/lab2/build/laba2.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
