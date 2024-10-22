@@ -4,6 +4,7 @@
 #include <sstream>
 Field::Field(){
     this->field_name="\0";
+    //используем fieldcreate
     this->for_born=0;
     this->min_for_survive=0;
     this->max_for_survive=0;
@@ -30,10 +31,6 @@ Field::Field(Field &field){
     this->field_name=field.field_name;
     this->x_size=field.x_size;
     this->y_size=field.y_size;
-    this->for_born =field.for_born;
-    this->min_for_survive = field.min_for_survive;
-    this->max_for_survive = field.max_for_survive;
-
     this->world = new int*[this->x_size];
     for(int i=0;i<this->x_size;i++){
         this->world[i] = new int[this->y_size];
@@ -137,15 +134,15 @@ void Field::watch_neighbors(int neigh[][2], int x, int y){
 }
 int Field::live_count_neighbors(int **world, int x, int y){
     int count = 0;
-    int nb[8][2];
+    int neigh[8][2];
     int x_pos = 0;
     int y_pos = 0;
 
-    watch_neighbors(nb, x, y);
+    watch_neighbors(neigh, x, y);
 
     for (int i = 0; i < 8; i++) {
-        x_pos = nb[i][0];
-        y_pos = nb[i][1];
+        x_pos = neigh[i][0];
+        y_pos = neigh[i][1];
 
         if (x_pos < 0 || y_pos < 0) {
             continue;
