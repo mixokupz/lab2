@@ -5,9 +5,6 @@ Processer::Processer(){
     this->in_file="input.txt";
     this->out_file="output.txt";
     this->iter=2147483647;
-    this->was_dump = 0;
-    this->tick_iter = 2147483647;
-    this->was_tick = 0;
 }
 Processer::~Processer(){
     this->in_file="\0";
@@ -17,21 +14,15 @@ Processer::~Processer(){
 
 
 Processer::Processer(vector<string> inp_line){
-    if(inp_line.size()==0){
+    try{
+        if(inp_line.size()==0){
         this->in_file="input.txt";
         this->out_file="output.txt";
         this->iter=2147483647;
-        this->was_dump = 0;
-        this->tick_iter = 2147483647;
-        this->was_tick = 0;
         cout<<"No input file. Base game will start.\n";
     }else if(inp_line.size()==1){
         ifstream inpt(inp_line[0]);
-        this->was_dump = 0;
-        this->tick_iter = 2147483647;
-        this->was_tick = 0;
         this->iter=2147483647;
-        this->out_file="output.txt";
         if(inpt.is_open()){
             this->in_file = inp_line[0];
             inpt.close();
@@ -39,13 +30,8 @@ Processer::Processer(vector<string> inp_line){
             this->in_file="input.txt";
             cout<<"Input file can't be opened.Base game will start.\n";
         }
-        
-
     }else if(inp_line.size()==5){
         ifstream inpt(inp_line[0]);
-        this->was_dump = 0;
-        this->tick_iter = 2147483647;
-        this->was_tick = 0;
         if(inpt.is_open()){
             this->in_file = inp_line[0];
             inpt.close();
@@ -61,12 +47,20 @@ Processer::Processer(vector<string> inp_line){
             }
             this->out_file = inp_line[4];
         }else{
-            throw std::invalid_argument("Error: Wrong input!\n");
+            throw invalid_argument("Error: Wrong input!\n");
         }
     }
     else{
-        throw std::invalid_argument("Error: Wrong input!\n");
+        throw invalid_argument("Error: Wrong input!\n");
     }
+    }catch(invalid_argument){
+        cout<<"Wrong input! Make sure that you follow this format:\n<inputfile.txt> -i <number> -o <outfile.txt>\nOr like it: <inputfile.txt>\nOr nothing\n\nAlso your input file shold be like it:\n#N My game\n#R B3/S45\n#S 11/10\nx y -- description of positon live points\n";
+        cout<<"Base game will start\n";
+        this->in_file="input.txt";
+        this->out_file="output.txt";
+        this->iter=2147483647;
+    }
+    
 }
 string Processer::ret_in_file(){
     return this->in_file;
