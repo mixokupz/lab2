@@ -4,7 +4,6 @@
 #include <sstream>
 Field::Field(){
     this->field_name="\0";
-    //используем fieldcreate
     this->for_born=0;
     this->min_for_survive=0;
     this->max_for_survive=0;
@@ -31,6 +30,10 @@ Field::Field(Field &field){
     this->field_name=field.field_name;
     this->x_size=field.x_size;
     this->y_size=field.y_size;
+    this->for_born =field.for_born;
+    this->min_for_survive = field.min_for_survive;
+    this->max_for_survive = field.max_for_survive;
+
     this->world = new int*[this->x_size];
     for(int i=0;i<this->x_size;i++){
         this->world[i] = new int[this->y_size];
@@ -119,11 +122,10 @@ int Field::live_count(int** world){
     return count;
 }
 void Field::watch_neighbors(int neigh[][2], int x, int y){
-    int i, j;
     int k = 0;
 
-    for (i = x - 1; i <= x + 1; i++) {
-        for (j = y - 1; j <= y + 1; j++) {
+    for (int i = x - 1; i <= x + 1; i++) {
+        for (int j = y - 1; j <= y + 1; j++) {
             if (i == x && j == y) {
                 continue;
             }
@@ -135,25 +137,24 @@ void Field::watch_neighbors(int neigh[][2], int x, int y){
 }
 int Field::live_count_neighbors(int **world, int x, int y){
     int count = 0;
-    int i;
     int nb[8][2];
-    int _x = 0;
-    int _y =0 ;
+    int x_pos = 0;
+    int y_pos = 0;
 
     watch_neighbors(nb, x, y);
 
-    for (i = 0; i < 8; i++) {
-        _x = nb[i][0];
-        _y = nb[i][1];
+    for (int i = 0; i < 8; i++) {
+        x_pos = nb[i][0];
+        y_pos = nb[i][1];
 
-        if (_x < 0 || _y < 0) {
+        if (x_pos < 0 || y_pos < 0) {
             continue;
         }
-        if (_x >= this->x_size || _y >= this->y_size) {
+        if (x_pos >= this->x_size || y_pos >= this->y_size) {
             continue;
         }
 
-        if (world[_x][_y] == 1) {
+        if (world[x_pos][y_pos] == 1) {
             count++;
         }
     }
@@ -161,13 +162,11 @@ int Field::live_count_neighbors(int **world, int x, int y){
     return count;
 }
 void Field::new_world(int** world, int **old_world){
-    int i;
-    int j;
     int live_nb;
     int p;
 
-    for (i = 0; i < this->x_size; i++) {
-        for (j = 0; j < this->y_size; j++) {
+    for (int i = 0; i < this->x_size; i++) {
+        for (int j = 0; j < this->y_size; j++) {
             p = old_world[i][j];
             live_nb = live_count_neighbors(old_world, i, j);
 

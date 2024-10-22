@@ -5,6 +5,9 @@ Processer::Processer(){
     this->in_file="input.txt";
     this->out_file="output.txt";
     this->iter=2147483647;
+    this->was_dump = 0;
+    this->tick_iter = 2147483647;
+    this->was_tick = 0;
 }
 Processer::~Processer(){
     this->in_file="\0";
@@ -18,9 +21,17 @@ Processer::Processer(vector<string> inp_line){
         this->in_file="input.txt";
         this->out_file="output.txt";
         this->iter=2147483647;
+        this->was_dump = 0;
+        this->tick_iter = 2147483647;
+        this->was_tick = 0;
         cout<<"No input file. Base game will start.\n";
     }else if(inp_line.size()==1){
         ifstream inpt(inp_line[0]);
+        this->was_dump = 0;
+        this->tick_iter = 2147483647;
+        this->was_tick = 0;
+        this->iter=2147483647;
+        this->out_file="output.txt";
         if(inpt.is_open()){
             this->in_file = inp_line[0];
             inpt.close();
@@ -32,6 +43,9 @@ Processer::Processer(vector<string> inp_line){
 
     }else if(inp_line.size()==5){
         ifstream inpt(inp_line[0]);
+        this->was_dump = 0;
+        this->tick_iter = 2147483647;
+        this->was_tick = 0;
         if(inpt.is_open()){
             this->in_file = inp_line[0];
             inpt.close();
